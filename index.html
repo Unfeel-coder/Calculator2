@@ -4,73 +4,59 @@
   <title>Калькулятор страховой суммы</title>
 </head>
 <body>
-  <h1>Заполнение полиса ипотечного страхования</h1>
+  <h1>Калькулятор страховой суммы</h1>
+  <form>
+    <label for="credit_balance">Остаток кредита:</label>
+    <input type="number" id="credit_balance" min="0" required>
 
-  <!-- Форма заполнения полиса -->
+    <label for="loan_term">Срок погашения кредита:</label>
+    <input type="number" id="loan_term" min="0" required>
 
-  <div id="insurance-calculator">
-    <h2>Калькулятор расчета страховой суммы</h2>
-    <div>
-      <label for="remaining-mortgage-sum">Оставшаяся сумма кредита</label>
-      <input type="number" id="remaining-mortgage-sum">
-    </div>
-    <div>
-      <label for="term-repayment">Срок погашения кредита</label>
-      <input type="number" id="term-repayment">
-    </div>
-    <div>
-      <button type="button" id="calculate-button">Рассчитать</button>
-    </div>
-    <div id="insurance-sum-result"></div>
-  </div>
+    <input type="submit" value="Рассчитать">
+  </form>
 
-  <!-- Скрипт для расчета страховой суммы -->
+  <div id="result"></div>
+
   <script>
-    // Получить элементы из DOM
-    const remainingMortgageSumInput = document.getElementById('remaining-mortgage-sum');
-    const termRepaymentInput = document.getElementById('term-repayment');
-    const calculateButton = document.getElementById('calculate-button');
-    const insuranceSumResult = document.getElementById('insurance-sum-result');
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelector("form").addEventListener("submit", function(event) {
+        event.preventDefault();
 
-    // Добавить обработчик события для кнопки расчета
-    calculateButton.addEventListener('click', () => {
-      // Получить значения из полей ввода
-      const remainingMortgageSum = parseInt(remainingMortgageSumInput.value);
-      const termRepayment = parseInt(termRepaymentInput.value);
+        // Получаем значения из формы
+        var creditBalance = parseFloat(document.querySelector("#credit_balance").value);
+        var loanTerm = parseInt(document.querySelector("#loan_term").value);
 
-      // Рассчитать коэффициенты
-      let remainingMortgageSumCoefficient = 0;
-      let termRepaymentCoefficient = 0;
+        // Рассчитываем коэффициенты
+        var creditBalanceCoefficient;
+        if (creditBalance <= 1000000) {
+          creditBalanceCoefficient = 0.9;
+        } else if (creditBalance <= 2000000) {
+          creditBalanceCoefficient = 1;
+        } else if (creditBalance <= 4000000) {
+          creditBalanceCoefficient = 1.2;
+        } else {
+          creditBalanceCoefficient = 1.4;
+        }
 
-      // Определить коэффициент для оставшейся суммы кредита
-      if (remainingMortgageSum <= 1000000) {
-        remainingMortgageSumCoefficient = 0.9;
-      } else if (remainingMortgageSum <= 2000000) {
-        remainingMortgageSumCoefficient = 1;
-      } else if (remainingMortgageSum <= 4000000) {
-        remainingMortgageSumCoefficient = 1.2;
-      } else {
-        remainingMortgageSumCoefficient = 1.4;
-      }
+        var loanTermCoefficient;
+        if (loanTerm <= 5) {
+          loanTermCoefficient = 0.9;
+        } else if (loanTerm <= 8) {
+          loanTermCoefficient = 1;
+        } else if (loanTerm <= 15) {
+          loanTermCoefficient = 1.2;
+        } else if (loanTerm <= 20) {
+          loanTermCoefficient = 1.4;
+        } else {
+          loanTermCoefficient = 1.5;
+        }
 
-      // Определить коэффициент для срока погашения кредита
-      if (termRepayment <= 5) {
-        termRepaymentCoefficient = 0.9;
-      } else if (termRepayment <= 8) {
-        termRepaymentCoefficient = 1;
-      } else if (termRepayment <= 15) {
-        termRepaymentCoefficient = 1.2;
-      } else if (termRepayment <= 20) {
-        termRepaymentCoefficient = 1.4;
-      } else {
-        termRepaymentCoefficient = 1.5;
-      }
+        // Рассчитываем страховую сумму
+        var insuranceSum = creditBalance * creditBalanceCoefficient * loanTermCoefficient;
 
-      // Рассчитать страховую сумму
-      const insuranceSum = remainingMortgageSum * remainingMortgageSumCoefficient * termRepaymentCoefficient;
-
-      // Вывести результат
-      insuranceSumResult.innerHTML = ⓃСтраховая сумма: ${insuranceSum}Ⓝ;
+        // Выводим результат
+        document.querySelector("#result").innerHTML = "Страховая сумма: " + insuranceSum.toFixed(2) + " рублей";
+      });
     });
   </script>
 </body>
