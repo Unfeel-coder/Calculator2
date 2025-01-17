@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Калькулятор страховой суммы</title>
+  </head>
+  <body>
+    <h1>Заполнение полиса ипотечного страхования</h1>
+
+    <!-- Форма заполнения полиса -->
+
+    <div id="insurance-calculator">
+      <h2>Калькулятор расчета страховой суммы</h2>
+      <div>
+        <label for="remaining-mortgage-sum">Оставшаяся сумма кредита</label>
+        <input type="number" id="remaining-mortgage-sum">
+      </div>
+      <div>
+        <label for="term-repayment">Срок погашения кредита</label>
+        <input type="number" id="term-repayment">
+      </div>
+      <div>
+        <button type="button" id="calculate-button">Рассчитать</button>
+      </div>
+      <div id="insurance-sum-result"></div>
+    </div>
+
+    <!-- Скрипт для расчета страховой суммы -->
+    <script src="script.js"></script>
+  </body>
+</html>
