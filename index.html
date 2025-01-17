@@ -52,10 +52,10 @@
         }
 
         // Рассчитываем страховую сумму
-        var insuranceSum = creditBalance * creditBalanceCoefficient * loanTermCoefficient;
+        var insurancePremium = creditBalance * 0.01 * creditBalanceCoefficient * loanTermCoefficient;
 
         // Выводим результат
-        document.querySelector("#result").innerHTML = "Страховая сумма: " + insuranceSum.toFixed(2) + " рублей";
+        document.querySelector("#result").innerHTML = "Страховая премия: " + insurancePremium.toFixed(2) + " рублей";
       });
     });
   </script>
